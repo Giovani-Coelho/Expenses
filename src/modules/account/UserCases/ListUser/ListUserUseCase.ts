@@ -4,8 +4,8 @@ import { IUserRepository } from '../../Repositories/IUserRepository';
 class ListUserUseCase {
   constructor(private userRepository: IUserRepository) {}
 
-  execute(): User[] {
-    const user = this.userRepository.listAll();
+  public async execute(email: string): Promise<User> {
+    const user = await this.userRepository.findByEmail(email);
     return user;
   }
 }

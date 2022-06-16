@@ -1,26 +1,37 @@
-import { User } from '../../entities/User';
+import { getRepository, Repository } from 'typeorm';
 
-class UserRepository {
-  private users: User[];
+import { IUserDTO } from '../../dtos/ICreateUserDTO';
+import { User } from '../../entities/User';
+import { IUserRepository } from '../IUserRepository';
+
+class UserRepository implements IUserRepository {
+  private repository: Repository<User>;
 
   constructor() {
-    this.users = [];
+    this.repository = getRepository(User);
   }
 
-  public create({ name, email }): void {
-    const user = new User();
-
-    Object.assign(user, {
+  public async create({
+    name, username, email, password,
+  }: IUserDTO): Promise<void> {
+    const user = this.repository.create({
       name,
+      username,
       email,
-      created_at: new Date(),
+      password,
     });
 
-    this.users.push(user);
+    await this.repository.save(user);
   }
 
-  public listAll(): User[] {
-    return this.users;
+  public async listAll(): Promise<User[]> {
+    const user = await this.repository.find();
+    return user;
+  }
+
+  public async findByEmail(email: string): Promise<User> {
+    const user = await this.repository.findOne({ email });
+    return user;
   }
 }
 

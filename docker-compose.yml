@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  expenses_db:
+    image: postgres
+    container_name: expenses_db
+    restart: always
+    ports: 
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=expenses
+    volumes:
+      - pgdata:/data/postgres
+
+  expenses_api: 
+    build: .
+    container_name: expenses_api
+    restart: always
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/usr/app
+    links: 
+      - expenses_db
+    depends_on:
+      - expenses_db
+
+volumes: 
+  pgdata: 
+    driver: local

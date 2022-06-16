@@ -1,13 +1,13 @@
+import { IUserDTO } from '../dtos/ICreateUserDTO';
 import { User } from '../entities/User';
 
-interface IRequest {
-  name: string
-  email: string
-}
-
 interface IUserRepository {
-  create({ name, email }: IRequest): void
-  listAll(): User[]
+  create({
+    name, username, email, password,
+  }: IUserDTO): Promise<void>
+
+  listAll(): Promise<User[]>
+  findByEmail(email:string): Promise<User>
 }
 
 export { IUserRepository };

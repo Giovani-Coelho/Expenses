@@ -1,10 +1,33 @@
+import {
+  Column, CreateDateColumn, Entity, PrimaryColumn,
+} from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
+@Entity('users')
 class User {
-  id?: string;
-  name: string;
-  email: string;
-  created_at: Date;
+  @PrimaryColumn()
+    id?: string;
+
+  @Column()
+    name: string;
+
+  @Column()
+    username: string;
+
+  @Column()
+    email: string;
+
+  @Column()
+    password: string;
+
+  @Column()
+    isAdmin: boolean;
+
+  @CreateDateColumn()
+    created_at: Date;
+
+  @CreateDateColumn()
+    updated_at: Date;
 
   constructor() {
     if (!this.id) {

@@ -4,5 +4,14 @@
   "host": "localhost",
   "username": "docker",
   "password": "docker",
-  "database": "api_db"
+  "database": "expenses",
+  "migrations": [
+    "./src/database/migrations/*.ts"
+  ],
+  "entities": [
+    "./src/modules/**/entities/*.ts"
+  ],
+  "cli": {
+    "migrationsDir": "./src/database/migrations"
+  }
 }
