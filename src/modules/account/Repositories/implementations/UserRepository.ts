@@ -8,17 +8,19 @@ class UserRepository implements IUserRepository {
   private repository: Repository<User>;
 
   constructor() {
+    // referencia ao banco de dados.
     this.repository = getRepository(User);
   }
 
   public async create({
-    name, username, email, password,
+    name, email, password, avatar, id,
   }: IUserDTO): Promise<void> {
     const user = this.repository.create({
       name,
-      username,
       email,
       password,
+      avatar,
+      id,
     });
 
     await this.repository.save(user);
